@@ -9,11 +9,9 @@ class BookingObject extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-    ];
+     protected $fillable = ['name', 'description'];
 
+    // Связь с бронированиями
     public function bookings()
     {
         return $this->hasMany(Booking::class);

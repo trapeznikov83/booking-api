@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingObjectController;
 use App\Http\Controllers\BookingController;
 
+Route::apiResource('rooms', RoomController::class)->middleware('auth:sanctum');// Регистрация API-маршрутов для бронирований
+
 // Открытые маршруты (без токена)
 Route::post('/register', [AuthController::class, 'register']); // Регистрация
 Route::post('/login', [AuthController::class, 'login']);       // Авторизация
@@ -17,6 +19,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Просмотр объектов бронирования
     Route::get('/booking-objects', [BookingObjectController::class, 'index']);
+    // Создать объект
+    Route::post('booking-objects', [BookingObjectController::class, 'store']);
+
 
     // CRUD бронирований
     Route::get('/bookings', [BookingController::class, 'index']);           // Мои брони

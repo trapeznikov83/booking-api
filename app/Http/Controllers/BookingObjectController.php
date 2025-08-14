@@ -23,4 +23,22 @@ class BookingObjectController extends Controller
         }
         return response()->json($object);
     }
+
+    // Создание нового объекта
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            // добавь остальные поля модели
+        ]);
+
+        $object = BookingObject::create($data);
+
+        return response()->json([
+            'message' => 'Booking object created successfully',
+            'data' => $object
+        ], 201);
+    }
 }

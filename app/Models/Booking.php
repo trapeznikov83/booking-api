@@ -1,22 +1,25 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration {
-    public function up(): void {
-        Schema::create('bookings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Ссылка на пользователя
-            $table->foreignId('booking_object_id')->constrained()->onDelete('cascade'); // Ссылка на объект бронирования
-            $table->dateTime('start_at'); // Время начала брони
-            $table->dateTime('end_at');   // Время окончания брони
-            $table->timestamps();
-        });
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Booking extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['user_id', 'booking_object_id', 'start_at', 'end_at'];
+
+    // Связь с пользователем
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function down(): void {
-        Schema::dropIfExists('bookings');
+    // Связь с объектом бронирования
+    public function bookingObject()
+    {
+        return $this->belongsTo(BookingObject::class);
     }
-};
+}
